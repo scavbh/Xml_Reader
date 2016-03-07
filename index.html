@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<style>
+
+table
+{
+	border-collapse:collapse;
+}
+
+table,th,td 
+{
+	border : 1px solid black;
+	border-collapse: collapse;
+}
+th,td 
+{
+	padding: 5px;
+}
+</style>
+<body>
+
+<button type="button" onclick="loadXMLDoc()">Get my food collection</button> 	<!--This loads the function loadXMLDoc -->
+<br><br>
+<table id="demo"></table>														<!--This displays the table with id 'demo' -->
+
+<script>
+function loadXMLDoc() 
+{
+  var xmlhttp = new XMLHttpRequest();											//This creates a connection 'xmlhttp'
+  xmlhttp.open("GET", "testXML.xml", true);										//This defines the file to be opened
+  xmlhttp.send();																//This sends the request 
+  
+  xmlhttp.onreadystatechange = function() 
+  {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 						//This will check if the connection was successful
+	{
+      myFunction(xmlhttp); 
+    }
+  };
+  
+}
+function myFunction(xml) 
+{
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="<tr><th>name</th><th>Title</th></tr>";
+  var x = xmlDoc.getElementsByTagName("food");
+  for (i = 0; i <x.length; i++) 
+  { 
+    table += "<tr><td>" +
+    x[i].getElementsByTagName("name")[0].childNodes[0].nodeValue +
+    "</td><td>" +
+    x[i].getElementsByTagName("price")[0].childNodes[0].nodeValue +
+    "</td></tr>";
+  }
+  document.getElementById("demo").innerHTML = table;
+}
+</script>
+
+</body>
+</html>
